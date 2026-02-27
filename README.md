@@ -17,21 +17,15 @@
 
 <br>
 
-<img src="https://raw.githubusercontent.com/YOUR_USERNAME/guess-pro/main/assets/logo.png" alt="GuessPro Logo" width="200"/>
+
 
 <br>
 
 **🎮 Challenge your mind with the ultimate number guessing game!**
 
-**[🚀 Live Demo](https://guess-pro.vercel.app/) • [📖 Documentation](#-documentation) • [🐛 Report Bug](https://github.com/YOUR_USERNAME/guess-pro/issues) • [✨ Request Feature](https://github.com/YOUR_USERNAME/guess-pro/issues)**
+**[🚀 Live Demo]() • **
 
-<br>
 
-![GuessPro Preview](https://raw.githubusercontent.com/YOUR_USERNAME/guess-pro/main/assets/preview.gif)
-
-</div>
-
----
 
 ## 📋 Table of Contents
 
