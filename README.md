@@ -23,7 +23,7 @@
 
 **🎮 Challenge your mind with the ultimate number guessing game!**
 
-**[🚀 Live Demo]() • **
+**[🚀 Live Demo](https://guess-my-number-game-two-jet.vercel.app/) • **
 
 '''
 
