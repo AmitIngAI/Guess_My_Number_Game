@@ -196,7 +196,7 @@ Points: 5x Multiplier
 
 ### Libraries & CDNs
 
-```javascript
+javascript
 // Core Libraries
 ├── Chart.js v4.x          // Data visualization
 ├── Font Awesome 6.4.0     // Icon library
