@@ -214,27 +214,20 @@ Prerequisites:
 
 📸 Screenshots
 🏠 Landing Page
-Landing Page
+<img width="1912" height="933" alt="dashboard" src="https://github.com/user-attachments/assets/22acae11-144d-4d68-9e85-7301f2e60c55" />
 Hero section with animated elements and game mode selection
 
-🎮 Game Panel
-Game Panel
+🎮 Daily Challenge
+<img width="1890" height="892" alt="daily_challenge" src="https://github.com/user-attachments/assets/7e66ac4f-7c68-4f38-85b4-8907e1ce455e" />
 Active gameplay with timer, score, and guess history
 
-📊 Dashboard
-Dashboard
-Statistics dashboard with charts and quick stats
+📊 Login/Register Dashboard
+<img width="1186" height="756" alt="login_dashboard" src="https://github.com/user-attachments/assets/862e3624-4fb8-4642-ab78-273cbcd976b0" />
+Statistics dashboard with register or login.
 
-🏆 Achievements
-Achievements
-Achievement grid with progress tracking
-
-🎓 Tutorial
-Tutorial
-Interactive onboarding tutorial
-
-📱 Mobile View
-Mobile View
+🏆 Custom Mode
+<img width="1906" height="931" alt="custom_mode" src="https://github.com/user-attachments/assets/79806b65-d94d-4286-b89b-49e635176fe2" />
+custom mode for heavy and intresting gameplay.
 
 🔒 Browser Support
 Browser	Version	Support
