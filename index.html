@@ -1,0 +1,2596 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ultimate Number Guessing Game - Challenge Your Mind">
+    <meta name="theme-color" content="#667eea">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="assets/icon-192.png">
+    
+    <title>GuessPro | Ultimate Number Guessing Game</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- PDF Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- ===== LOADING SCREEN ===== -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="loader">
+            <div class="loader-circle"></div>
+            <div class="loader-circle"></div>
+            <div class="loader-circle"></div>
+            <div class="loader-text">
+                <span>G</span><span>u</span><span>e</span><span>s</span><span>s</span>
+                <span>P</span><span>r</span><span>o</span>
+            </div>
+        </div>
+        <p class="loading-tip">Loading your gaming experience...</p>
+    </div>
+
+    <!-- ===== TOAST NOTIFICATIONS ===== -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- ===== ANIMATED BACKGROUND ===== -->
+    <div class="bg-container">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
+        <div class="particles" id="particles"></div>
+        <div class="grid-lines"></div>
+    </div>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-dice"></i>
+                </div>
+                <span class="logo-text">Guess<span class="highlight">Pro</span></span>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#hero" class="active">Home</a></li>
+                <li><a href="#game-modes">Play</a></li>
+                <li><a href="#daily-challenge">Daily</a></li>
+                <li><a href="#achievements">Achievements</a></li>
+                <li><a href="#dashboard">Stats</a></li>
+            </ul>
+            
+            <div class="nav-actions">
+                <!-- Theme Toggle -->
+                <button class="btn-icon" id="theme-btn" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                
+                <!-- Sound Toggle -->
+                <button class="btn-icon" id="sound-btn" title="Toggle Sound">
+                    <i class="fas fa-volume-up"></i>
+                </button>
+                
+                <!-- Language Toggle -->
+                <button class="btn-icon" id="lang-btn" title="Language">
+                    <span>EN</span>
+                </button>
+                
+                <!-- Profile/Login -->
+                <button class="btn-profile" id="profile-btn">
+                    <img src="https://ui-avatars.com/api/?name=Guest&background=667eea&color=fff" alt="Profile" id="profile-avatar">
+                    <span id="profile-name">Guest</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+            
+            <div class="mobile-menu-btn" id="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <!-- Profile Dropdown -->
+        <div class="profile-dropdown" id="profile-dropdown">
+            <div class="dropdown-header">
+                <img src="https://ui-avatars.com/api/?name=Guest&background=667eea&color=fff" alt="" id="dropdown-avatar">
+                <div>
+                    <h4 id="dropdown-name">Guest User</h4>
+                    <p id="dropdown-email">Click to login</p>
+                </div>
+            </div>
+            <div class="dropdown-menu">
+                <a href="#" id="login-btn"><i class="fas fa-sign-in-alt"></i> Login / Register</a>
+                <a href="#" id="my-profile-btn"><i class="fas fa-user"></i> My Profile</a>
+                <a href="#achievements"><i class="fas fa-trophy"></i> Achievements</a>
+                <a href="#" id="settings-btn"><i class="fas fa-cog"></i> Settings</a>
+                <a href="#" id="export-btn"><i class="fas fa-download"></i> Export Stats</a>
+                <a href="#" id="logout-btn" class="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== KEYBOARD SHORTCUTS HELP ===== -->
+    <div class="shortcuts-tooltip" id="shortcuts-tooltip">
+        <h4><i class="fas fa-keyboard"></i> Keyboard Shortcuts</h4>
+        <ul>
+            <li><kbd>Enter</kbd> Check guess</li>
+            <li><kbd>R</kbd> Restart game</li>
+            <li><kbd>H</kbd> Use hint</li>
+            <li><kbd>Esc</kbd> Quit game</li>
+            <li><kbd>M</kbd> Toggle sound</li>
+            <li><kbd>T</kbd> Toggle theme</li>
+            <li><kbd>?</kbd> Show shortcuts</li>
+        </ul>
+    </div>
+
+    <!-- ===== HERO SECTION ===== -->
+    <section class="hero" id="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-gamepad"></i>
+                    <span data-lang="hero-badge">Ultimate Gaming Experience</span>
+                </div>
+                
+                <h1 class="hero-title">
+                    <span data-lang="hero-title-1">Challenge Your</span>
+                    <span class="gradient-text" data-lang="hero-title-2">Mind</span>
+                </h1>
+                
+                <p class="hero-description" data-lang="hero-desc">
+                    Test your intuition with our advanced number guessing game. 
+                    Multiple modes, real-time analytics, and compete with players worldwide.
+                </p>
+                
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="stat-number" data-count="50000">100</span>
+                        <span class="stat-label" data-lang="players">Players</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="stat-number" data-count="1000000">595</span>
+                        <span class="stat-label" data-lang="games-played">Games Played</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="stat-number" data-count="99">99</span>
+                        <span class="stat-label">% Satisfaction</span>
+                    </div>
+                </div>
+                
+                <div class="hero-buttons">
+                    <button class="btn-primary" id="hero-play-btn">
+                        <i class="fas fa-rocket"></i>
+                        <span data-lang="start-playing">Start Playing</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                    <button class="btn-secondary" id="tutorial-btn">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span data-lang="tutorial">Tutorial</span>
+                    </button>
+                </div>
+                
+                <!-- Power-ups Display -->
+                <div class="hero-powerups">
+                    <p>Your Power-ups:</p>
+                    <div class="powerup-items">
+                        <div class="powerup-item" title="50/50 - Reduces range by half">
+                            <i class="fas fa-percentage"></i>
+                            <span id="powerup-5050">3</span>
+                        </div>
+                        <div class="powerup-item" title="Reveal Digit - Shows one digit">
+                            <i class="fas fa-eye"></i>
+                            <span id="powerup-reveal">2</span>
+                        </div>
+                        <div class="powerup-item" title="Extra Time - Adds 30 seconds">
+                            <i class="fas fa-clock"></i>
+                            <span id="powerup-time">1</span>
+                        </div>
+                        <div class="powerup-item" title="Skip - Skip to next game">
+                            <i class="fas fa-forward"></i>
+                            <span id="powerup-skip">2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="floating-card card-1">
+                    <i class="fas fa-trophy"></i>
+                    <span>High Score: <strong id="hero-highscore">1200</strong></span>
+                </div>
+                <div class="floating-card card-2">
+                    <i class="fas fa-fire"></i>
+                    <span>Streak: <strong id="hero-streak">x56</strong></span>
+                </div>
+                <div class="floating-card card-3">
+                    <i class="fas fa-medal"></i>
+                    <span>Badges: <strong id="hero-badges">25</strong></span>
+                </div>
+                
+                <div class="hero-game-preview">
+                    <div class="preview-number">
+                        <span>5</span>
+                    </div>
+                    <div class="preview-ring"></div>
+                    <div class="preview-ring ring-2"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <span>Scroll Down</span>
+        </div>
+    </section>
+
+    <!-- ===== DAILY CHALLENGE SECTION ===== -->
+    <section class="daily-challenge" id="daily-challenge">
+        <div class="section-container">
+            <div class="daily-wrapper">
+                <div class="daily-info">
+                    <div class="daily-badge">
+                        <i class="fas fa-calendar-day"></i>
+                        <span>Daily Challenge</span>
+                    </div>
+                    <h2>Today's <span class="gradient-text">Challenge</span></h2>
+                    <p>Complete the daily challenge to earn bonus rewards and maintain your daily streak!</p>
+                    
+                    <div class="daily-stats">
+                        <div class="daily-stat">
+                            <i class="fas fa-fire"></i>
+                            <div>
+                                <span id="daily-streak">0</span>
+                                <p>Day Streak</p>
+                            </div>
+                        </div>
+                        <div class="daily-stat">
+                            <i class="fas fa-users"></i>
+                            <div>
+                                <span>2,459</span>
+                                <p>Completed Today</p>
+                            </div>
+                        </div>
+                        <div class="daily-stat">
+                            <i class="fas fa-clock"></i>
+                            <div>
+                                <span id="daily-countdown">23:59:59</span>
+                                <p>Time Left</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="daily-rewards">
+                        <h4>Today's Rewards:</h4>
+                        <div class="reward-items">
+                            <div class="reward-item">
+                                <i class="fas fa-coins"></i>
+                                <span>+500 Points</span>
+                            </div>
+                            <div class="reward-item">
+                                <i class="fas fa-percentage"></i>
+                                <span>+1 Power-up</span>
+                            </div>
+                            <div class="reward-item" id="daily-badge-reward">
+                                <i class="fas fa-award"></i>
+                                <span>Daily Badge</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-daily" id="play-daily">
+                        <i class="fas fa-play"></i>
+                        <span id="daily-btn-text">Play Daily Challenge</span>
+                    </button>
+                </div>
+                
+                <div class="daily-calendar">
+                    <h4><i class="fas fa-calendar-alt"></i> This Week</h4>
+                    <div class="calendar-days" id="calendar-days">
+                        <!-- Generated by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== GAME MODES SECTION ===== -->
+    <section class="game-modes" id="game-modes">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-badge">
+                    <i class="fas fa-gamepad"></i>
+                    <span data-lang="choose-challenge">Choose Your Challenge</span>
+                </span>
+                <h2 class="section-title"><span data-lang="game">Game</span> <span class="gradient-text" data-lang="modes">Modes</span></h2>
+                <p class="section-description" data-lang="modes-desc">
+                    Select your preferred way to play. Each mode offers unique challenges and rewards.
+                </p>
+            </div>
+            
+            <div class="modes-grid">
+                <!-- Classic Mode -->
+                <div class="mode-card" id="classic-mode">
+                    <div class="mode-glow"></div>
+                    <div class="mode-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <div class="mode-badge easy">Easy</div>
+                    <h3 class="mode-title">Classic Mode</h3>
+                    <p class="mode-description">Perfect for beginners. Take your time and guess the number.</p>
+                    <ul class="mode-features">
+                        <li><i class="fas fa-check"></i> Unlimited Attempts</li>
+                        <li><i class="fas fa-check"></i> No Time Pressure</li>
+                        <li><i class="fas fa-check"></i> Range: 1-100</li>
+                        <li><i class="fas fa-check"></i> Hints Available</li>
+                    </ul>
+                    <div class="mode-stats">
+                        <div class="mode-stat">
+                            <span class="stat-value">∞</span>
+                            <span class="stat-label">Attempts</span>
+                        </div>
+                        <div class="mode-stat">
+                            <span class="stat-value">1x</span>
+                            <span class="stat-label">Points</span>
+                        </div>
+                    </div>
+                    <button class="btn-play-mode" id="play-classic">
+                        <i class="fas fa-play"></i>
+                        <span>Play Now</span>
+                    </button>
+                </div>
+                
+                <!-- Timed Mode -->
+                <div class="mode-card featured" id="timed-mode">
+                    <div class="mode-glow"></div>
+                    <div class="featured-badge">
+                        <i class="fas fa-crown"></i>
+                        Most Popular
+                    </div>
+                    <div class="mode-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="mode-badge medium">Medium</div>
+                    <h3 class="mode-title">Timed Challenge</h3>
+                    <p class="mode-description">Race against time! Each guess counts.</p>
+                    <ul class="mode-features">
+                        <li><i class="fas fa-check"></i> 60 Second Timer</li>
+                        <li><i class="fas fa-check"></i> 10 Max Attempts</li>
+                        <li><i class="fas fa-check"></i> Range: 1-100</li>
+                        <li><i class="fas fa-check"></i> Bonus Points</li>
+                    </ul>
+                    <div class="mode-stats">
+                        <div class="mode-stat">
+                            <span class="stat-value">60s</span>
+                            <span class="stat-label">Time</span>
+                        </div>
+                        <div class="mode-stat">
+                            <span class="stat-value">3x</span>
+                            <span class="stat-label">Points</span>
+                        </div>
+                    </div>
+                    <button class="btn-play-mode" id="play-timed">
+                        <i class="fas fa-play"></i>
+                        <span>Play Now</span>
+                    </button>
+                </div>
+                
+                <!-- Extreme Mode -->
+                <div class="mode-card" id="extreme-mode">
+                    <div class="mode-glow"></div>
+                    <div class="mode-icon">
+                        <i class="fas fa-skull"></i>
+                    </div>
+                    <div class="mode-badge hard">Hard</div>
+                    <h3 class="mode-title">Extreme Mode</h3>
+                    <p class="mode-description">For experts only. Maximum pressure.</p>
+                    <ul class="mode-features">
+                        <li><i class="fas fa-check"></i> Only 5 Attempts</li>
+                        <li><i class="fas fa-check"></i> 30 Second Timer</li>
+                        <li><i class="fas fa-check"></i> Range: 1-500</li>
+                        <li><i class="fas fa-check"></i> No Hints</li>
+                    </ul>
+                    <div class="mode-stats">
+                        <div class="mode-stat">
+                            <span class="stat-value">5</span>
+                            <span class="stat-label">Attempts</span>
+                        </div>
+                        <div class="mode-stat">
+                            <span class="stat-value">5x</span>
+                            <span class="stat-label">Points</span>
+                        </div>
+                    </div>
+                    <button class="btn-play-mode" id="play-extreme">
+                        <i class="fas fa-play"></i>
+                        <span>Play Now</span>
+                    </button>
+                </div>
+                
+                <!-- Custom Mode -->
+                <div class="mode-card custom-mode" id="custom-mode">
+                    <div class="mode-glow"></div>
+                    <div class="mode-icon">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <div class="mode-badge custom">Custom</div>
+                    <h3 class="mode-title">Custom Mode</h3>
+                    <p class="mode-description">Create your own challenge with custom settings.</p>
+                    
+                    <div class="custom-settings">
+                        <div class="setting-group">
+                            <label>Range: <span id="range-value">1-100</span></label>
+                            <input type="range" id="custom-range" min="10" max="1000" value="100">
+                        </div>
+                        <div class="setting-group">
+                            <label>Time (sec): <span id="time-value">60</span></label>
+                            <input type="range" id="custom-time" min="0" max="120" value="60">
+                        </div>
+                        <div class="setting-group">
+                            <label>Attempts: <span id="attempts-value">10</span></label>
+                            <input type="range" id="custom-attempts" min="1" max="20" value="10">
+                        </div>
+                        <div class="setting-group checkbox">
+                            <label>
+                                <input type="checkbox" id="custom-hints" checked>
+                                <span>Allow Hints</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-play-mode" id="play-custom">
+                        <i class="fas fa-play"></i>
+                        <span>Play Custom</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== GAME PANEL ===== -->
+    <section class="game-panel" id="game-panel">
+        <div class="section-container">
+            <div class="game-wrapper">
+                <!-- Game Controls -->
+                <div class="game-controls">
+                    <div class="game-header">
+                        <div class="game-mode-display">
+                            <i class="fas fa-gamepad"></i>
+                            <span id="current-mode">Select a Mode</span>
+                        </div>
+                        <div class="game-difficulty" id="difficulty-badge">
+                            <span>-</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Number Display -->
+                    <div class="number-display">
+                        <div class="number-circle" id="number-circle">
+                            <div class="number-ring">
+                                <svg viewBox="0 0 200 200">
+                                    <circle class="ring-bg" cx="100" cy="100" r="90"/>
+                                    <circle class="ring-progress" id="ring-progress" cx="100" cy="100" r="90"/>
+                                </svg>
+                            </div>
+                            <div class="number-inner">
+                                <span class="secret-number" id="secret-number">?</span>
+                            </div>
+                            <div class="number-glow"></div>
+                        </div>
+                        <p class="range-display">
+                            Guess between <span id="range-min">1</span> and <span id="range-max">100</span>
+                        </p>
+                    </div>
+                    
+                    <!-- Input Section -->
+                    <div class="input-section">
+                        <div class="input-group">
+                            <input type="number" 
+                                   id="guess-input" 
+                                   class="guess-input" 
+                                   placeholder="Enter your guess..."
+                                   min="1"
+                                   disabled
+                                   autocomplete="off">
+                            <button class="btn-check" id="check-btn" disabled>
+                                <i class="fas fa-paper-plane"></i>
+                                <span>Check</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Message Display -->
+                    <div class="message-display" id="message-display">
+                        <div class="message-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <p class="message-text" id="message-text">Select a game mode to start!</p>
+                    </div>
+                    
+                    <!-- Hint Arrow -->
+                    <div class="hint-display" id="hint-display">
+                        <div class="hint-arrow" id="hint-arrow">
+                            <i class="fas fa-arrows-alt-v"></i>
+                        </div>
+                        <span class="hint-text" id="hint-text">Make your first guess</span>
+                    </div>
+                    
+                    <!-- Power-ups Bar -->
+                    <div class="powerups-bar">
+                        <h4>Use Power-up:</h4>
+                        <div class="powerup-buttons">
+                            <button class="powerup-btn" id="use-5050" title="50/50: Reduce range by half">
+                                <i class="fas fa-percentage"></i>
+                                <span class="powerup-count" id="game-5050">3</span>
+                            </button>
+                            <button class="powerup-btn" id="use-reveal" title="Reveal: Show one digit">
+                                <i class="fas fa-eye"></i>
+                                <span class="powerup-count" id="game-reveal">2</span>
+                            </button>
+                            <button class="powerup-btn" id="use-time" title="Extra Time: +30 seconds">
+                                <i class="fas fa-clock"></i>
+                                <span class="powerup-count" id="game-time">1</span>
+                            </button>
+                            <button class="powerup-btn" id="use-skip" title="Skip: Skip this game">
+                                <i class="fas fa-forward"></i>
+                                <span class="powerup-count" id="game-skip">2</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Game Actions -->
+                    <div class="game-actions">
+                        <button class="btn-action btn-restart" id="restart-btn">
+                            <i class="fas fa-redo"></i>
+                            <span>Restart</span>
+                        </button>
+                        <button class="btn-action btn-hint" id="hint-btn">
+                            <i class="fas fa-lightbulb"></i>
+                            <span>Hint (-10)</span>
+                        </button>
+                        <button class="btn-action btn-quit" id="quit-btn">
+                            <i class="fas fa-times"></i>
+                            <span>Quit</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Game Stats Panel -->
+                <div class="game-stats-panel">
+                    <!-- Timer -->
+                    <div class="stat-card timer-card">
+                        <div class="stat-card-header">
+                            <i class="fas fa-clock"></i>
+                            <span>Time</span>
+                        </div>
+                        <div class="timer-display">
+                            <div class="timer-circle">
+                                <svg viewBox="0 0 100 100">
+                                    <circle class="timer-bg" cx="50" cy="50" r="45"/>
+                                    <circle class="timer-progress" id="timer-progress" cx="50" cy="50" r="45"/>
+                                </svg>
+                                <div class="timer-value" id="timer-display">∞</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Score -->
+                    <div class="stat-card score-card">
+                        <div class="stat-card-header">
+                            <i class="fas fa-star"></i>
+                            <span>Score</span>
+                        </div>
+                        <div class="score-display">
+                            <span class="score-value" id="score-display">0</span>
+                            <span class="score-label">points</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Attempts -->
+                    <div class="stat-card attempts-card">
+                        <div class="stat-card-header">
+                            <i class="fas fa-crosshairs"></i>
+                            <span>Attempts</span>
+                        </div>
+                        <div class="attempts-display">
+                            <span class="attempts-current" id="attempts-display">0</span>
+                            <span class="attempts-separator">/</span>
+                            <span class="attempts-max" id="max-attempts">∞</span>
+                        </div>
+                        <div class="attempts-bar">
+                            <div class="attempts-fill" id="attempts-fill"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Streak -->
+                    <div class="stat-card streak-card">
+                        <div class="stat-card-header">
+                            <i class="fas fa-fire"></i>
+                            <span>Streak</span>
+                        </div>
+                        <div class="streak-display">
+                            <span class="streak-value" id="streak-display">x0</span>
+                        </div>
+                    </div>
+                    
+                    <!-- History -->
+                    <div class="stat-card history-card">
+                        <div class="stat-card-header">
+                            <i class="fas fa-history"></i>
+                            <span>History</span>
+                        </div>
+                        <div class="history-list" id="history-list">
+                            <p class="history-empty">No guesses yet</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ACHIEVEMENTS SECTION ===== -->
+    <section class="achievements" id="achievements">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-badge">
+                    <i class="fas fa-trophy"></i>
+                    Unlock Rewards
+                </span>
+                <h2 class="section-title">Achievements & <span class="gradient-text">Badges</span></h2>
+                <p class="section-description">Complete challenges to unlock achievements and earn rewards!</p>
+            </div>
+            
+            <div class="achievements-stats">
+                <div class="achievement-stat">
+                    <div class="stat-circle">
+                        <span id="unlocked-count">0</span>
+                        <span>/</span>
+                        <span id="total-achievements">15</span>
+                    </div>
+                    <p>Unlocked</p>
+                </div>
+                <div class="achievement-progress">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="achievement-progress"></div>
+                    </div>
+                    <span id="achievement-percent">0%</span>
+                </div>
+            </div>
+            
+            <div class="achievements-grid" id="achievements-grid">
+                <!-- Generated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== DASHBOARD SECTION ===== -->
+    <section class="dashboard" id="dashboard">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-badge">
+                    <i class="fas fa-chart-line"></i>
+                    Track Progress
+                </span>
+                <h2 class="section-title">Performance <span class="gradient-text">Dashboard</span></h2>
+                <p class="section-description">Analyze your gameplay with detailed statistics.</p>
+                
+                <button class="btn-export" id="export-stats-btn">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>Export as PDF</span>
+                </button>
+            </div>
+            
+            <div class="dashboard-grid" id="dashboard-content">
+                <!-- Chart Card -->
+                <div class="dashboard-card chart-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-line"></i> Score History</h3>
+                        <div class="card-actions">
+                            <button class="chart-filter active" data-filter="week">Week</button>
+                            <button class="chart-filter" data-filter="month">Month</button>
+                            <button class="chart-filter" data-filter="all">All</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="scoreChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Accuracy -->
+                <div class="dashboard-card accuracy-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-bullseye"></i> Win Rate</h3>
+                    </div>
+                    <div class="accuracy-display">
+                        <div class="accuracy-circle">
+                            <svg viewBox="0 0 200 200">
+                                <circle class="accuracy-bg" cx="100" cy="100" r="80"/>
+                                <circle class="accuracy-progress" id="accuracy-progress" cx="100" cy="100" r="80"/>
+                            </svg>
+                            <div class="accuracy-value">
+                                <span id="accuracy-percent">0</span>
+                                <span class="percent">%</span>
+                            </div>
+                        </div>
+                        <div class="accuracy-stats">
+                            <div class="accuracy-stat">
+                                <span class="value" id="total-guesses">0</span>
+                                <span class="label">Total Games</span>
+                            </div>
+                            <div class="accuracy-stat">
+                                <span class="value" id="correct-guesses">0</span>
+                                <span class="label">Won</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Streak -->
+                <div class="dashboard-card streak-counter-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-fire-alt"></i> Win Streak</h3>
+                    </div>
+                    <div class="streak-counter">
+                        <div class="streak-flames">
+                            <i class="fas fa-fire"></i>
+                            <i class="fas fa-fire"></i>
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <span class="streak-number" id="current-streak">x0</span>
+                        <p class="streak-message">Start playing!</p>
+                        <div class="streak-best">
+                            <span>Best: </span>
+                            <strong id="best-streak">x0</strong>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Stats -->
+                <div class="dashboard-card quick-stats-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-chart-bar"></i> Quick Stats</h3>
+                    </div>
+                    <div class="quick-stats-grid">
+                        <div class="quick-stat">
+                            <div class="quick-stat-icon"><i class="fas fa-gamepad"></i></div>
+                            <div class="quick-stat-info">
+                                <span class="quick-stat-value" id="total-games">0</span>
+                                <span class="quick-stat-label">Games Played</span>
+                            </div>
+                        </div>
+                        <div class="quick-stat">
+                            <div class="quick-stat-icon"><i class="fas fa-trophy"></i></div>
+                            <div class="quick-stat-info">
+                                <span class="quick-stat-value" id="games-won">0</span>
+                                <span class="quick-stat-label">Games Won</span>
+                            </div>
+                        </div>
+                        <div class="quick-stat">
+                            <div class="quick-stat-icon"><i class="fas fa-crown"></i></div>
+                            <div class="quick-stat-info">
+                                <span class="quick-stat-value" id="high-score-display">0</span>
+                                <span class="quick-stat-label">High Score</span>
+                            </div>
+                        </div>
+                        <div class="quick-stat">
+                            <div class="quick-stat-icon"><i class="fas fa-percentage"></i></div>
+                            <div class="quick-stat-info">
+                                <span class="quick-stat-value" id="win-rate">0%</span>
+                                <span class="quick-stat-label">Win Rate</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== HOW IT WORKS ===== -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-badge">
+                    <i class="fas fa-question-circle"></i>
+                    Simple Steps
+                </span>
+                <h2 class="section-title">How It <span class="gradient-text">Works</span></h2>
+            </div>
+            
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">01</div>
+                    <div class="step-icon"><i class="fas fa-keyboard"></i></div>
+                    <h3>Enter Number</h3>
+                    <p>Type your guess in the input field within the given range.</p>
+                </div>
+                <div class="step-connector"><i class="fas fa-arrow-right"></i></div>
+                <div class="step-card">
+                    <div class="step-number">02</div>
+                    <div class="step-icon"><i class="fas fa-comment-dots"></i></div>
+                    <h3>Get Feedback</h3>
+                    <p>Receive "Too High" or "Too Low" hints to guide you.</p>
+                </div>
+                <div class="step-connector"><i class="fas fa-arrow-right"></i></div>
+                <div class="step-card">
+                    <div class="step-number">03</div>
+                    <div class="step-icon"><i class="fas fa-bullseye"></i></div>
+                    <h3>Win & Earn</h3>
+                    <p>Find the number, earn points, and unlock achievements!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <i class="fas fa-dice"></i>
+                        <span>Guess<span>Pro</span></span>
+                    </div>
+                    <p>The ultimate number guessing game. Challenge yourself and improve your skills!</p>
+                    <div class="footer-badges">
+                        <span class="tech-badge">JavaScript</span>
+                        <span class="tech-badge">HTML5</span>
+                        <span class="tech-badge">CSS3</span>
+                        <span class="tech-badge">Chart.js</span>
+                    </div>
+                </div>
+                
+                <div class="footer-links-group">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#hero">Home</a></li>
+                        <li><a href="#game-modes">Play Game</a></li>
+                        <li><a href="#achievements">Achievements</a></li>
+                        <li><a href="#dashboard">Dashboard</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links-group">
+                    <h4>Game Modes</h4>
+                    <ul>
+                        <li><a href="#" id="footer-classic">Classic</a></li>
+                        <li><a href="#" id="footer-timed">Timed</a></li>
+                        <li><a href="#" id="footer-extreme">Extreme</a></li>
+                        <li><a href="#" id="footer-custom">Custom</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-links-group">
+                    <h4>Shortcuts</h4>
+                    <ul>
+                        <li><kbd>Enter</kbd> Check</li>
+                        <li><kbd>R</kbd> Restart</li>
+                        <li><kbd>H</kbd> Hint</li>
+                        <li><kbd>?</kbd> Help</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 GuessPro. Developed by <strong>Your Name</strong> | MCA Final Year Project</p>
+                <p>Made with <i class="fas fa-heart"></i> using Vanilla JavaScript</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== MODALS ===== -->
+    
+    <!-- Win Modal -->
+    <div class="modal" id="win-modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content win">
+            <div class="confetti-container" id="confetti"></div>
+            <div class="modal-icon"><i class="fas fa-trophy"></i></div>
+            <h2>🎉 Congratulations!</h2>
+            <p class="modal-subtitle">You guessed it right!</p>
+            <div class="modal-stats">
+                <div class="modal-stat">
+                    <span class="modal-stat-value" id="modal-number">0</span>
+                    <span class="modal-stat-label">Number</span>
+                </div>
+                <div class="modal-stat">
+                    <span class="modal-stat-value" id="modal-attempts">0</span>
+                    <span class="modal-stat-label">Attempts</span>
+                </div>
+                <div class="modal-stat">
+                    <span class="modal-stat-value" id="modal-score">0</span>
+                    <span class="modal-stat-label">Score</span>
+                </div>
+                <div class="modal-stat">
+                    <span class="modal-stat-value" id="modal-time">0s</span>
+                    <span class="modal-stat-label">Time</span>
+                </div>
+            </div>
+            
+            <!-- Achievement Unlocked -->
+            <div class="modal-achievement" id="modal-achievement" style="display:none;">
+                <i class="fas fa-award"></i>
+                <span>Achievement Unlocked!</span>
+                <p id="achievement-name"></p>
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn-modal-primary" id="modal-play-again">
+                    <i class="fas fa-redo"></i> Play Again
+                </button>
+                <button class="btn-modal-secondary" id="share-btn">
+                    <i class="fas fa-share-alt"></i> Share
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Lose Modal -->
+    <div class="modal" id="lose-modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content lose">
+            <div class="modal-icon"><i class="fas fa-heart-broken"></i></div>
+            <h2>😢 Game Over!</h2>
+            <p class="modal-subtitle">Better luck next time!</p>
+            <div class="reveal-number">
+                <p>The secret number was</p>
+                <span id="reveal-number">0</span>
+            </div>
+            <div class="modal-actions">
+                <button class="btn-modal-primary" id="modal-try-again">
+                    <i class="fas fa-redo"></i> Try Again
+                </button>
+                <button class="btn-modal-secondary" id="modal-home-2">
+                    <i class="fas fa-home"></i> Home
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ===== LOGIN / REGISTER MODAL ===== -->
+<div class="auth-modal" id="auth-modal">
+    <div class="auth-overlay"></div>
+    
+    <div class="auth-container">
+        <!-- Close Button -->
+        <button class="auth-close" id="auth-close">
+            <i class="fas fa-times"></i>
+        </button>
+        
+        <!-- Left Side - Branding -->
+        <div class="auth-branding">
+            <div class="brand-content">
+                <div class="brand-logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-dice"></i>
+                    </div>
+                    <span>Guess<span class="highlight">Pro</span></span>
+                </div>
+                
+                <h2>Welcome to the Ultimate Gaming Experience</h2>
+                <p>Join thousands of players worldwide and challenge your mind!</p>
+                
+                <div class="brand-features">
+                    <div class="brand-feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h4>Track Progress</h4>
+                            <p>Save your scores and achievements</p>
+                        </div>
+                    </div>
+                    <div class="brand-feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-sync"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h4>Sync Across Devices</h4>
+                            <p>Play anywhere, anytime</p>
+                        </div>
+                    </div>
+                    <div class="brand-feature">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="feature-text">
+                            <h4>Compete Globally</h4>
+                            <p>Climb the leaderboard</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="brand-stats">
+                    <div class="brand-stat">
+                        <span class="stat-num">50K+</span>
+                        <span class="stat-label">Players</span>
+                    </div>
+                    <div class="brand-stat">
+                        <span class="stat-num">1M+</span>
+                        <span class="stat-label">Games</span>
+                    </div>
+                    <div class="brand-stat">
+                        <span class="stat-num">4.9</span>
+                        <span class="stat-label">Rating</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Animated Background Elements -->
+            <div class="brand-bg-elements">
+                <div class="bg-circle circle-1"></div>
+                <div class="bg-circle circle-2"></div>
+                <div class="bg-circle circle-3"></div>
+                <div class="floating-nums">
+                    <span>7</span>
+                    <span>42</span>
+                    <span>?</span>
+                    <span>13</span>
+                    <span>99</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Side - Forms -->
+        <div class="auth-forms">
+            <!-- Auth Tabs -->
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Login</span>
+                </button>
+                <button class="auth-tab" data-tab="register">
+                    <i class="fas fa-user-plus"></i>
+                    <span>Register</span>
+                </button>
+                <div class="tab-indicator"></div>
+            </div>
+            
+            <!-- Login Form -->
+            <form class="auth-form" id="login-form">
+                <div class="form-header">
+                    <h3>Welcome Back!</h3>
+                    <p>Enter your credentials to access your account</p>
+                </div>
+                
+                <!-- Social Login -->
+                <div class="social-login">
+                    <button type="button" class="social-btn google">
+                        <i class="fab fa-google"></i>
+                        <span>Google</span>
+                    </button>
+                    <button type="button" class="social-btn github">
+                        <i class="fab fa-github"></i>
+                        <span>GitHub</span>
+                    </button>
+                </div>
+                
+                <div class="divider">
+                    <span>or continue with email</span>
+                </div>
+                
+                <!-- Email Input -->
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <div class="input-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <input type="email" id="login-email" placeholder="Email address" required>
+                        <div class="input-focus-border"></div>
+                    </div>
+                    <span class="error-message" id="login-email-error"></span>
+                </div>
+                
+                <!-- Password Input -->
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <div class="input-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <input type="password" id="login-password" placeholder="Password" required>
+                        <button type="button" class="toggle-password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <div class="input-focus-border"></div>
+                    </div>
+                    <span class="error-message" id="login-password-error"></span>
+                </div>
+                
+                <!-- Remember & Forgot -->
+                <div class="form-options">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="remember-me">
+                        <span class="checkmark"></span>
+                        <span>Remember me</span>
+                    </label>
+                    <a href="#" class="forgot-link">Forgot password?</a>
+                </div>
+                
+                <!-- Submit Button -->
+                <button type="submit" class="btn-auth-submit">
+                    <span>Sign In</span>
+                    <i class="fas fa-arrow-right"></i>
+                    <div class="btn-loader"></div>
+                </button>
+                
+                <!-- Guest Login -->
+                <button type="button" class="btn-guest" id="guest-login">
+                    <i class="fas fa-user-secret"></i>
+                    <span>Continue as Guest</span>
+                </button>
+            </form>
+            
+            <!-- Register Form -->
+            <form class="auth-form hidden" id="register-form">
+                <div class="form-header">
+                    <h3>Create Account</h3>
+                    <p>Join us and start your gaming journey</p>
+                </div>
+                
+                <!-- Social Login -->
+                <div class="social-login">
+                    <button type="button" class="social-btn google">
+                        <i class="fab fa-google"></i>
+                        <span>Google</span>
+                    </button>
+                    <button type="button" class="social-btn github">
+                        <i class="fab fa-github"></i>
+                        <span>GitHub</span>
+                    </button>
+                </div>
+                
+                <div class="divider">
+                    <span>or register with email</span>
+                </div>
+                
+                <!-- Username Input -->
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <div class="input-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <input type="text" id="register-username" placeholder="Username" required minlength="3">
+                        <div class="input-status"></div>
+                        <div class="input-focus-border"></div>
+                    </div>
+                    <span class="error-message" id="register-username-error"></span>
+                </div>
+                
+                <!-- Email Input -->
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <div class="input-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <input type="email" id="register-email" placeholder="Email address" required>
+                        <div class="input-status"></div>
+                        <div class="input-focus-border"></div>
+                    </div>
+                    <span class="error-message" id="register-email-error"></span>
+                </div>
+                
+                <!-- Password Input -->
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <div class="input-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <input type="password" id="register-password" placeholder="Password" required minlength="8">
+                        <button type="button" class="toggle-password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <div class="input-focus-border"></div>
+                    </div>
+                    <!-- Password Strength -->
+                    <div class="password-strength">
+                        <div class="strength-bar">
+                            <div class="strength-fill" id="strength-fill"></div>
+                        </div>
+                        <span class="strength-text" id="strength-text">Password strength</span>
+                    </div>
+                    <div class="password-requirements">
+                        <div class="requirement" id="req-length">
+                            <i class="fas fa-circle"></i>
+                            <span>At least 8 characters</span>
+                        </div>
+                        <div class="requirement" id="req-upper">
+                            <i class="fas fa-circle"></i>
+                            <span>One uppercase letter</span>
+                        </div>
+                        <div class="requirement" id="req-number">
+                            <i class="fas fa-circle"></i>
+                            <span>One number</span>
+                        </div>
+                        <div class="requirement" id="req-special">
+                            <i class="fas fa-circle"></i>
+                            <span>One special character</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Confirm Password -->
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <div class="input-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <input type="password" id="register-confirm" placeholder="Confirm password" required>
+                        <div class="input-status"></div>
+                        <div class="input-focus-border"></div>
+                    </div>
+                    <span class="error-message" id="register-confirm-error"></span>
+                </div>
+                
+                <!-- Terms -->
+                <div class="form-terms">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" id="accept-terms" required>
+                        <span class="checkmark"></span>
+                        <span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></span>
+                    </label>
+                </div>
+                
+                <!-- Submit Button -->
+                <button type="submit" class="btn-auth-submit">
+                    <span>Create Account</span>
+                    <i class="fas fa-arrow-right"></i>
+                    <div class="btn-loader"></div>
+                </button>
+            </form>
+            
+            <!-- Forgot Password Form -->
+            <form class="auth-form hidden" id="forgot-form">
+                <div class="form-header">
+                    <button type="button" class="back-btn" id="back-to-login">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <h3>Reset Password</h3>
+                    <p>Enter your email and we'll send you a reset link</p>
+                </div>
+                
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <div class="input-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <input type="email" id="forgot-email" placeholder="Email address" required>
+                        <div class="input-focus-border"></div>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-auth-submit">
+                    <span>Send Reset Link</span>
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- ===== SETTINGS MODAL ===== -->
+<div class="settings-modal" id="settings-modal">
+    <div class="settings-overlay"></div>
+    
+    <div class="settings-container">
+        <!-- Settings Header -->
+        <div class="settings-header">
+            <div class="settings-title">
+                <i class="fas fa-cog"></i>
+                <h2>Settings</h2>
+            </div>
+            <button class="settings-close" id="settings-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="settings-body">
+            <!-- Settings Navigation -->
+            <nav class="settings-nav">
+                <button class="nav-item active" data-section="profile">
+                    <i class="fas fa-user"></i>
+                    <span>Profile</span>
+                </button>
+                <button class="nav-item" data-section="appearance">
+                    <i class="fas fa-palette"></i>
+                    <span>Appearance</span>
+                </button>
+                <button class="nav-item" data-section="sound">
+                    <i class="fas fa-volume-up"></i>
+                    <span>Sound</span>
+                </button>
+                <button class="nav-item" data-section="gameplay">
+                    <i class="fas fa-gamepad"></i>
+                    <span>Gameplay</span>
+                </button>
+                <button class="nav-item" data-section="notifications">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifications</span>
+                </button>
+                <button class="nav-item" data-section="privacy">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Privacy</span>
+                </button>
+                <button class="nav-item" data-section="data">
+                    <i class="fas fa-database"></i>
+                    <span>Data</span>
+                </button>
+                <button class="nav-item" data-section="about">
+                    <i class="fas fa-info-circle"></i>
+                    <span>About</span>
+                </button>
+            </nav>
+            
+            <!-- Settings Content -->
+            <div class="settings-content">
+                
+                <!-- Profile Section -->
+                <section class="settings-section active" id="section-profile">
+                    <div class="section-header">
+                        <h3>Profile Settings</h3>
+                        <p>Manage your personal information</p>
+                    </div>
+                    
+                    <!-- Avatar -->
+                    <div class="profile-avatar-section">
+                        <div class="avatar-preview">
+                            <img src="https://ui-avatars.com/api/?name=Player&background=667eea&color=fff&size=150" alt="Avatar" id="settings-avatar">
+                            <div class="avatar-overlay">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        </div>
+                        <div class="avatar-actions">
+                            <button class="btn-avatar" id="change-avatar">
+                                <i class="fas fa-upload"></i>
+                                <span>Upload Photo</span>
+                            </button>
+                            <button class="btn-avatar secondary" id="remove-avatar">
+                                <i class="fas fa-trash"></i>
+                                <span>Remove</span>
+                            </button>
+                        </div>
+                        <input type="file" id="avatar-input" accept="image/*" hidden>
+                    </div>
+                    
+                    <!-- Profile Form -->
+                    <div class="settings-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Display Name</label>
+                                <div class="input-wrapper">
+                                    <input type="text" id="settings-name" value="Player" placeholder="Your name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+                                <div class="input-wrapper">
+                                    <span class="input-prefix">@</span>
+                                    <input type="text" id="settings-username" value="player123" placeholder="username">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Email</label>
+                            <div class="input-wrapper">
+                                <input type="email" id="settings-email" value="player@example.com" placeholder="your@email.com">
+                                <span class="input-badge verified">
+                                    <i class="fas fa-check"></i> Verified
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Bio</label>
+                            <textarea id="settings-bio" placeholder="Tell us about yourself..." rows="3">Gaming enthusiast and number wizard!</textarea>
+                            <span class="char-counter"><span id="bio-count">38</span>/200</span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Country</label>
+                            <div class="select-wrapper">
+                                <select id="settings-country">
+                                    <option value="in" selected>🇮🇳 India</option>
+                                    <option value="us">🇺🇸 United States</option>
+                                    <option value="uk">🇬🇧 United Kingdom</option>
+                                    <option value="ca">🇨🇦 Canada</option>
+                                    <option value="au">🇦🇺 Australia</option>
+                                    <option value="de">🇩🇪 Germany</option>
+                                    <option value="fr">🇫🇷 France</option>
+                                    <option value="jp">🇯🇵 Japan</option>
+                                </select>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Change Password -->
+                    <div class="settings-card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-key"></i>
+                                <h4>Change Password</h4>
+                            </div>
+                            <button class="btn-expand" data-expand="password-section">
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                        </div>
+                        <div class="card-content" id="password-section">
+                            <div class="form-group">
+                                <label>Current Password</label>
+                                <div class="input-wrapper">
+                                    <input type="password" id="current-password" placeholder="Enter current password">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>New Password</label>
+                                <div class="input-wrapper">
+                                    <input type="password" id="new-password" placeholder="Enter new password">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Confirm New Password</label>
+                                <div class="input-wrapper">
+                                    <input type="password" id="confirm-new-password" placeholder="Confirm new password">
+                                </div>
+                            </div>
+                            <button class="btn-save">Update Password</button>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Appearance Section -->
+                <section class="settings-section" id="section-appearance">
+                    <div class="section-header">
+                        <h3>Appearance</h3>
+                        <p>Customize how GuessPro looks</p>
+                    </div>
+                    
+                    <!-- Theme Selection -->
+                    <div class="settings-card">
+                        <div class="card-title">
+                            <i class="fas fa-moon"></i>
+                            <h4>Theme</h4>
+                        </div>
+                        <div class="theme-options">
+                            <label class="theme-option">
+                                <input type="radio" name="theme" value="dark" checked>
+                                <div class="theme-preview dark">
+                                    <div class="preview-header"></div>
+                                    <div class="preview-body">
+                                        <div class="preview-circle"></div>
+                                    </div>
+                                </div>
+                                <span>Dark</span>
+                            </label>
+                            <label class="theme-option">
+                                <input type="radio" name="theme" value="light">
+                                <div class="theme-preview light">
+                                    <div class="preview-header"></div>
+                                    <div class="preview-body">
+                                        <div class="preview-circle"></div>
+                                    </div>
+                                </div>
+                                <span>Light</span>
+                            </label>
+                            <label class="theme-option">
+                                <input type="radio" name="theme" value="system">
+                                <div class="theme-preview system">
+                                    <div class="preview-header"></div>
+                                    <div class="preview-body">
+                                        <div class="preview-circle"></div>
+                                    </div>
+                                </div>
+                                <span>System</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Accent Color -->
+                    <div class="settings-card">
+                        <div class="card-title">
+                            <i class="fas fa-paint-brush"></i>
+                            <h4>Accent Color</h4>
+                        </div>
+                        <div class="color-options">
+                            <label class="color-option">
+                                <input type="radio" name="accent" value="#667eea" checked>
+                                <span class="color-swatch" style="background: linear-gradient(135deg, #667eea, #764ba2);"></span>
+                            </label>
+                            <label class="color-option">
+                                <input type="radio" name="accent" value="#f093fb">
+                                <span class="color-swatch" style="background: linear-gradient(135deg, #f093fb, #f5576c);"></span>
+                            </label>
+                            <label class="color-option">
+                                <input type="radio" name="accent" value="#4fd1c7">
+                                <span class="color-swatch" style="background: linear-gradient(135deg, #4fd1c7, #38b2ac);"></span>
+                            </label>
+                            <label class="color-option">
+                                <input type="radio" name="accent" value="#f6ad55">
+                                <span class="color-swatch" style="background: linear-gradient(135deg, #f6ad55, #ed8936);"></span>
+                            </label>
+                            <label class="color-option">
+                                <input type="radio" name="accent" value="#fc8181">
+                                <span class="color-swatch" style="background: linear-gradient(135deg, #fc8181, #f56565);"></span>
+                            </label>
+                            <label class="color-option">
+                                <input type="radio" name="accent" value="#48bb78">
+                                <span class="color-swatch" style="background: linear-gradient(135deg, #48bb78, #38a169);"></span>
+                            </label>
+                            <label class="color-option custom">
+                                <input type="color" id="custom-color" value="#667eea">
+                                <span class="color-swatch custom-swatch">
+                                    <i class="fas fa-plus"></i>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Font Size -->
+                    <div class="settings-card">
+                        <div class="card-title">
+                            <i class="fas fa-text-height"></i>
+                            <h4>Font Size</h4>
+                        </div>
+                        <div class="slider-group">
+                            <span class="slider-label">A</span>
+                            <input type="range" id="font-size" min="12" max="20" value="16" class="range-slider">
+                            <span class="slider-label large">A</span>
+                            <span class="slider-value" id="font-size-value">16px</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Animations -->
+                    <div class="settings-card">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <i class="fas fa-magic"></i>
+                                <div>
+                                    <h4>Animations</h4>
+                                    <p>Enable smooth animations and transitions</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-animations" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Reduced Motion -->
+                    <div class="settings-card">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <i class="fas fa-hand-paper"></i>
+                                <div>
+                                    <h4>Reduced Motion</h4>
+                                    <p>Minimize animations for accessibility</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-reduced-motion">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Sound Section -->
+                <section class="settings-section" id="section-sound">
+                    <div class="section-header">
+                        <h3>Sound Settings</h3>
+                        <p>Control audio and sound effects</p>
+                    </div>
+                    
+                    <!-- Master Volume -->
+                    <div class="settings-card">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <i class="fas fa-volume-up"></i>
+                                <div>
+                                    <h4>Master Volume</h4>
+                                    <p>Control overall volume</p>
+                                </div>
+                            </div>
+                            <div class="volume-control">
+                                <button class="volume-btn" id="mute-master">
+                                    <i class="fas fa-volume-up"></i>
+                                </button>
+                                <input type="range" id="master-volume" min="0" max="100" value="80" class="range-slider">
+                                <span class="volume-value">80%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Sound Effects -->
+                    <div class="settings-card">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <i class="fas fa-drum"></i>
+                                <div>
+                                    <h4>Sound Effects</h4>
+                                    <p>Button clicks, win/lose sounds</p>
+                                </div>
+                            </div>
+                            <div class="volume-control">
+                                <input type="range" id="sfx-volume" min="0" max="100" value="100" class="range-slider">
+                                <span class="volume-value">100%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Background Music -->
+                    <div class="settings-card">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <i class="fas fa-music"></i>
+                                <div>
+                                    <h4>Background Music</h4>
+                                    <p>Ambient game music</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-music">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Vibration -->
+                    <div class="settings-card">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <i class="fas fa-mobile-alt"></i>
+                                <div>
+                                    <h4>Vibration</h4>
+                                    <p>Haptic feedback on mobile</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-vibration" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Test Sound -->
+                    <div class="settings-card">
+                        <button class="btn-test-sound" id="test-sound">
+                            <i class="fas fa-play"></i>
+                            <span>Test Sound</span>
+                        </button>
+                    </div>
+                </section>
+                
+                <!-- Gameplay Section -->
+                <section class="settings-section" id="section-gameplay">
+                    <div class="section-header">
+                        <h3>Gameplay Settings</h3>
+                        <p>Customize your gaming experience</p>
+                    </div>
+                    
+                    <!-- Default Mode -->
+                    <div class="settings-card">
+                        <div class="card-title">
+                            <i class="fas fa-gamepad"></i>
+                            <h4>Default Game Mode</h4>
+                        </div>
+                        <div class="select-wrapper">
+                            <select id="default-mode">
+                                <option value="classic">Classic Mode</option>
+                                <option value="timed" selected>Timed Challenge</option>
+                                <option value="extreme">Extreme Mode</option>
+                                <option value="custom">Custom Mode</option>
+                            </select>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Language -->
+                    <div class="settings-card">
+                        <div class="card-title">
+                            <i class="fas fa-language"></i>
+                            <h4>Language</h4>
+                        </div>
+                        <div class="select-wrapper">
+                            <select id="language-select">
+                                <option value="en" selected>🇬🇧 English</option>
+                                <option value="hi">🇮🇳 हिंदी (Hindi)</option>
+                                <option value="es">🇪🇸 Español</option>
+                                <option value="fr">🇫🇷 Français</option>
+                                <option value="de">🇩🇪 Deutsch</option>
+                                <option value="ja">🇯🇵 日本語</option>
+                            </select>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    
+                    <!-- Show Hints -->
+                    <div class="settings-card">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <i class="fas fa-lightbulb"></i>
+                                <div>
+                                    <h4>Show Hints</h4>
+                                    <p>Display helpful hints during gameplay</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-hints" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Auto-restart -->
+                    <div class="settings-card">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <i class="fas fa-redo"></i>
+                                <div>
+                                    <h4>Auto-restart</h4>
+                                    <p>Automatically start new game after win/lose</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-auto-restart">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Confirm Quit -->
+                    <div class="settings-card">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <div>
+                                    <h4>Confirm Before Quit</h4>
+                                    <p>Show confirmation when quitting a game</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-confirm-quit" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Notifications Section -->
+                <section class="settings-section" id="section-notifications">
+                    <div class="section-header">
+                        <h3>Notifications</h3>
+                        <p>Manage your notification preferences</p>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <i class="fas fa-bell"></i>
+                                <div>
+                                    <h4>Push Notifications</h4>
+                                    <p>Receive notifications about daily challenges</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-push" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <i class="fas fa-trophy"></i>
+                                <div>
+                                    <h4>Achievement Alerts</h4>
+                                    <p>Get notified when you unlock achievements</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-achievement-notify" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <i class="fas fa-calendar-day"></i>
+                                <div>
+                                    <h4>Daily Reminder</h4>
+                                    <p>Remind to complete daily challenge</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-daily-remind" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <i class="fas fa-envelope"></i>
+                                <div>
+                                    <h4>Email Notifications</h4>
+                                    <p>Weekly digest and updates</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-email-notify">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Privacy Section -->
+                <section class="settings-section" id="section-privacy">
+                    <div class="section-header">
+                        <h3>Privacy & Security</h3>
+                        <p>Control your privacy settings</p>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <i class="fas fa-user-friends"></i>
+                                <div>
+                                    <h4>Public Profile</h4>
+                                    <p>Show your profile on leaderboard</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-public-profile" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <i class="fas fa-chart-line"></i>
+                                <div>
+                                    <h4>Share Statistics</h4>
+                                    <p>Allow others to see your stats</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-share-stats" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <i class="fas fa-eye-slash"></i>
+                                <div>
+                                    <h4>Anonymous Mode</h4>
+                                    <p>Hide your identity on leaderboard</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-anonymous">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <i class="fas fa-chart-pie"></i>
+                                <div>
+                                    <h4>Analytics</h4>
+                                    <p>Help improve the game with anonymous data</p>
+                                </div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="toggle-analytics" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-card warning">
+                        <div class="card-title">
+                            <i class="fas fa-user-times"></i>
+                            <h4>Delete Account</h4>
+                        </div>
+                        <p class="warning-text">This action is irreversible. All your data will be permanently deleted.</p>
+                        <button class="btn-danger" id="delete-account">
+                            <i class="fas fa-trash-alt"></i>
+                            <span>Delete My Account</span>
+                        </button>
+                    </div>
+                </section>
+                
+                <!-- Data Section -->
+                <section class="settings-section" id="section-data">
+                    <div class="section-header">
+                        <h3>Data Management</h3>
+                        <p>Manage your game data</p>
+                    </div>
+                    
+                    <!-- Storage Info -->
+                    <div class="settings-card">
+                        <div class="card-title">
+                            <i class="fas fa-hdd"></i>
+                            <h4>Storage Used</h4>
+                        </div>
+                        <div class="storage-info">
+                            <div class="storage-bar">
+                                <div class="storage-fill" style="width: 35%;"></div>
+                            </div>
+                            <div class="storage-details">
+                                <span class="storage-used">1.2 MB</span>
+                                <span class="storage-total">/ 5 MB</span>
+                            </div>
+                        </div>
+                        <div class="storage-breakdown">
+                            <div class="breakdown-item">
+                                <span class="breakdown-dot" style="background: #667eea;"></span>
+                                <span>Game Data</span>
+                                <span class="breakdown-size">800 KB</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-dot" style="background: #f093fb;"></span>
+                                <span>Statistics</span>
+                                <span class="breakdown-size">250 KB</span>
+                            </div>
+                            <div class="breakdown-item">
+                                <span class="breakdown-dot" style="background: #4fd1c7;"></span>
+                                <span>Settings</span>
+                                <span class="breakdown-size">150 KB</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Export Data -->
+                    <div class="settings-card">
+                        <div class="card-title">
+                            <i class="fas fa-download"></i>
+                            <h4>Export Data</h4>
+                        </div>
+                        <p>Download all your data as a JSON file</p>
+                        <div class="btn-group">
+                            <button class="btn-export" id="export-json">
+                                <i class="fas fa-file-code"></i>
+                                <span>Export JSON</span>
+                            </button>
+                            <button class="btn-export" id="export-pdf">
+                                <i class="fas fa-file-pdf"></i>
+                                <span>Export PDF</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Import Data -->
+                    <div class="settings-card">
+                        <div class="card-title">
+                            <i class="fas fa-upload"></i>
+                            <h4>Import Data</h4>
+                        </div>
+                        <p>Restore data from a backup file</p>
+                        <div class="import-area" id="import-area">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span>Drop file here or click to browse</span>
+                            <input type="file" id="import-input" accept=".json" hidden>
+                        </div>
+                    </div>
+                    
+                    <!-- Clear Data -->
+                    <div class="settings-card warning">
+                        <div class="card-title">
+                            <i class="fas fa-eraser"></i>
+                            <h4>Clear Data</h4>
+                        </div>
+                        <div class="clear-options">
+                            <button class="btn-clear" id="clear-history">
+                                <i class="fas fa-history"></i>
+                                <span>Clear History</span>
+                            </button>
+                            <button class="btn-clear" id="clear-achievements">
+                                <i class="fas fa-trophy"></i>
+                                <span>Reset Achievements</span>
+                            </button>
+                            <button class="btn-clear danger" id="clear-all">
+                                <i class="fas fa-trash"></i>
+                                <span>Clear All Data</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- About Section -->
+                <section class="settings-section" id="section-about">
+                    <div class="section-header">
+                        <h3>About GuessPro</h3>
+                        <p>Game information and credits</p>
+                    </div>
+                    
+                    <!-- App Info -->
+                    <div class="settings-card about-card">
+                        <div class="about-logo">
+                            <div class="logo-icon large">
+                                <i class="fas fa-dice"></i>
+                            </div>
+                            <div class="about-name">
+                                <h2>GuessPro</h2>
+                                <span class="version">Version 2.0.0</span>
+                            </div>
+                        </div>
+                        <p class="about-desc">The ultimate number guessing game. Challenge your mind, track your progress, and compete with players worldwide!</p>
+                        <div class="about-badges">
+                            <span class="tech-badge">JavaScript</span>
+                            <span class="tech-badge">HTML5</span>
+                            <span class="tech-badge">CSS3</span>
+                            <span class="tech-badge">Chart.js</span>
+                            <span class="tech-badge">LocalStorage</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Developer Info -->
+                    <div class="settings-card">
+                        <div class="card-title">
+                            <i class="fas fa-code"></i>
+                            <h4>Developer</h4>
+                        </div>
+                        <div class="developer-info">
+                            <img src="https://ui-avatars.com/api/?name=Developer&background=667eea&color=fff" alt="Developer">
+                            <div>
+                                <h4>Your Name</h4>
+                                <p>MCA Final Year Student</p>
+                            </div>
+                        </div>
+                        <div class="developer-links">
+                            <a href="#" class="dev-link">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="#" class="dev-link">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="#" class="dev-link">
+                                <i class="fas fa-globe"></i>
+                            </a>
+                            <a href="#" class="dev-link">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Links -->
+                    <div class="settings-card">
+                        <div class="about-links">
+                            <a href="#" class="about-link">
+                                <i class="fas fa-book"></i>
+                                <span>Documentation</span>
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                            <a href="#" class="about-link">
+                                <i class="fas fa-bug"></i>
+                                <span>Report a Bug</span>
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                            <a href="#" class="about-link">
+                                <i class="fas fa-lightbulb"></i>
+                                <span>Suggest Feature</span>
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                            <a href="#" class="about-link">
+                                <i class="fas fa-star"></i>
+                                <span>Rate the App</span>
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Legal -->
+                    <div class="settings-card">
+                        <div class="legal-links">
+                            <a href="#">Privacy Policy</a>
+                            <span>•</span>
+                            <a href="#">Terms of Service</a>
+                            <span>•</span>
+                            <a href="#">Licenses</a>
+                        </div>
+                        <p class="copyright">© 2024 GuessPro. Made with ❤️ in India</p>
+                    </div>
+                </section>
+            </div>
+        </div>
+        
+        <!-- Settings Footer -->
+        <div class="settings-footer">
+            <button class="btn-reset-settings" id="reset-settings">
+                <i class="fas fa-undo"></i>
+                <span>Reset to Default</span>
+            </button>
+            <div class="footer-actions">
+                <button class="btn-cancel" id="cancel-settings">Cancel</button>
+                <button class="btn-save-settings" id="save-settings">
+                    <i class="fas fa-check"></i>
+                    <span>Save Changes</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+    
+    <!-- ===== TUTORIAL MODAL - LANDSCAPE ===== -->
+<div class="tutorial-modal" id="tutorial-modal">
+    <div class="tutorial-overlay"></div>
+    
+    <div class="tutorial-container">
+        <!-- Close Button -->
+        <button class="tutorial-close" id="close-tutorial">
+            <i class="fas fa-times"></i>
+        </button>
+        
+        <!-- Progress Bar -->
+        <div class="tutorial-progress">
+            <div class="progress-track">
+                <div class="progress-fill" id="tutorial-progress-fill"></div>
+            </div>
+            <span class="progress-text"><span id="current-step">1</span> / <span id="total-steps">6</span></span>
+        </div>
+        
+        <!-- Tutorial Slides Container -->
+        <div class="tutorial-slides-wrapper">
+            <div class="tutorial-slides" id="tutorial-slides">
+                
+                <!-- Slide 1: Welcome -->
+                <div class="tutorial-slide active" data-slide="1">
+                    <div class="slide-visual">
+                        <div class="visual-animation welcome-animation">
+                            <div class="welcome-circle">
+                                <div class="welcome-ring"></div>
+                                <div class="welcome-ring ring-2"></div>
+                                <div class="welcome-ring ring-3"></div>
+                                <div class="welcome-icon">
+                                    <i class="fas fa-gamepad"></i>
+                                </div>
+                            </div>
+                            <div class="floating-elements">
+                                <span class="float-num">7</span>
+                                <span class="float-num">42</span>
+                                <span class="float-num">?</span>
+                                <span class="float-num">15</span>
+                                <span class="float-num">88</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-badge">
+                            <i class="fas fa-star"></i>
+                            <span>Welcome</span>
+                        </div>
+                        <h2>Welcome to <span class="gradient-text">GuessPro</span></h2>
+                        <p>The ultimate number guessing game that challenges your mind and intuition. Get ready for an amazing gaming experience!</p>
+                        <div class="slide-features">
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Multiple Game Modes</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Achievement System</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check-circle"></i>
+                                <span>Real-time Statistics</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Slide 2: Choose Mode -->
+                <div class="tutorial-slide" data-slide="2">
+                    <div class="slide-visual">
+                        <div class="visual-animation modes-animation">
+                            <div class="mode-cards-demo">
+                                <div class="demo-card classic">
+                                    <i class="fas fa-gamepad"></i>
+                                    <span>Classic</span>
+                                    <div class="card-badge easy">Easy</div>
+                                </div>
+                                <div class="demo-card timed active">
+                                    <i class="fas fa-clock"></i>
+                                    <span>Timed</span>
+                                    <div class="card-badge medium">Medium</div>
+                                    <div class="card-glow"></div>
+                                </div>
+                                <div class="demo-card extreme">
+                                    <i class="fas fa-skull"></i>
+                                    <span>Extreme</span>
+                                    <div class="card-badge hard">Hard</div>
+                                </div>
+                            </div>
+                            <div class="cursor-pointer">
+                                <i class="fas fa-mouse-pointer"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-badge">
+                            <i class="fas fa-layer-group"></i>
+                            <span>Step 1</span>
+                        </div>
+                        <h2>Choose Your <span class="gradient-text">Mode</span></h2>
+                        <p>Select from multiple game modes based on your skill level. Each mode offers unique challenges and rewards.</p>
+                        <div class="mode-info-grid">
+                            <div class="mode-info">
+                                <div class="mode-icon classic"><i class="fas fa-gamepad"></i></div>
+                                <div>
+                                    <h4>Classic</h4>
+                                    <p>Unlimited attempts, no timer</p>
+                                </div>
+                            </div>
+                            <div class="mode-info">
+                                <div class="mode-icon timed"><i class="fas fa-clock"></i></div>
+                                <div>
+                                    <h4>Timed</h4>
+                                    <p>60 seconds, 10 attempts</p>
+                                </div>
+                            </div>
+                            <div class="mode-info">
+                                <div class="mode-icon extreme"><i class="fas fa-skull"></i></div>
+                                <div>
+                                    <h4>Extreme</h4>
+                                    <p>5 attempts, 30 seconds</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Slide 3: Make Guess -->
+                <div class="tutorial-slide" data-slide="3">
+                    <div class="slide-visual">
+                        <div class="visual-animation guess-animation">
+                            <div class="guess-demo">
+                                <div class="demo-number-circle">
+                                    <span>?</span>
+                                </div>
+                                <div class="demo-range">Between 1 and 100</div>
+                                <div class="demo-input-group">
+                                    <div class="demo-input">
+                                        <span class="typing-text">42</span>
+                                        <span class="cursor-blink">|</span>
+                                    </div>
+                                    <div class="demo-button">
+                                        <i class="fas fa-paper-plane"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="keyboard-hint">
+                                <kbd>Enter</kbd>
+                                <span>to submit</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-badge">
+                            <i class="fas fa-keyboard"></i>
+                            <span>Step 2</span>
+                        </div>
+                        <h2>Make Your <span class="gradient-text">Guess</span></h2>
+                        <p>Enter a number within the given range and click Check or press Enter to submit your guess.</p>
+                        <div class="tips-box">
+                            <h4><i class="fas fa-lightbulb"></i> Pro Tips</h4>
+                            <ul>
+                                <li>Start with the middle number (50 for 1-100)</li>
+                                <li>Use binary search strategy</li>
+                                <li>Pay attention to the feedback</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Slide 4: Get Feedback -->
+                <div class="tutorial-slide" data-slide="4">
+                    <div class="slide-visual">
+                        <div class="visual-animation feedback-animation">
+                            <div class="feedback-demo">
+                                <div class="feedback-card high">
+                                    <div class="feedback-icon">
+                                        <i class="fas fa-arrow-up"></i>
+                                    </div>
+                                    <div class="feedback-text">
+                                        <h4>Too High!</h4>
+                                        <p>Go Lower</p>
+                                    </div>
+                                    <div class="feedback-arrow down">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                </div>
+                                <div class="feedback-card low">
+                                    <div class="feedback-icon">
+                                        <i class="fas fa-arrow-down"></i>
+                                    </div>
+                                    <div class="feedback-text">
+                                        <h4>Too Low!</h4>
+                                        <p>Go Higher</p>
+                                    </div>
+                                    <div class="feedback-arrow up">
+                                        <i class="fas fa-chevron-up"></i>
+                                    </div>
+                                </div>
+                                <div class="feedback-card correct">
+                                    <div class="feedback-icon">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                    <div class="feedback-text">
+                                        <h4>Correct!</h4>
+                                        <p>You Won!</p>
+                                    </div>
+                                    <div class="feedback-confetti">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-badge">
+                            <i class="fas fa-comment-dots"></i>
+                            <span>Step 3</span>
+                        </div>
+                        <h2>Get <span class="gradient-text">Feedback</span></h2>
+                        <p>After each guess, you'll receive instant feedback to guide your next move.</p>
+                        <div class="feedback-info-grid">
+                            <div class="feedback-info">
+                                <div class="info-icon high"><i class="fas fa-arrow-up"></i></div>
+                                <span>Number is smaller</span>
+                            </div>
+                            <div class="feedback-info">
+                                <div class="info-icon low"><i class="fas fa-arrow-down"></i></div>
+                                <span>Number is bigger</span>
+                            </div>
+                            <div class="feedback-info">
+                                <div class="info-icon correct"><i class="fas fa-check"></i></div>
+                                <span>You got it right!</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Slide 5: Power-ups -->
+                <div class="tutorial-slide" data-slide="5">
+                    <div class="slide-visual">
+                        <div class="visual-animation powerups-animation">
+                            <div class="powerups-showcase">
+                                <div class="powerup-demo" data-powerup="5050">
+                                    <div class="powerup-icon">
+                                        <i class="fas fa-percentage"></i>
+                                    </div>
+                                    <div class="powerup-effect">
+                                        <span class="range-before">1-100</span>
+                                        <i class="fas fa-arrow-right"></i>
+                                        <span class="range-after">1-50</span>
+                                    </div>
+                                    <span class="powerup-name">50/50</span>
+                                </div>
+                                <div class="powerup-demo" data-powerup="reveal">
+                                    <div class="powerup-icon">
+                                        <i class="fas fa-eye"></i>
+                                    </div>
+                                    <div class="powerup-effect">
+                                        <span class="digit-reveal">_<span class="revealed">7</span></span>
+                                    </div>
+                                    <span class="powerup-name">Reveal</span>
+                                </div>
+                                <div class="powerup-demo" data-powerup="time">
+                                    <div class="powerup-icon">
+                                        <i class="fas fa-clock"></i>
+                                    </div>
+                                    <div class="powerup-effect">
+                                        <span class="time-add">+30s</span>
+                                    </div>
+                                    <span class="powerup-name">Extra Time</span>
+                                </div>
+                                <div class="powerup-demo" data-powerup="skip">
+                                    <div class="powerup-icon">
+                                        <i class="fas fa-forward"></i>
+                                    </div>
+                                    <div class="powerup-effect">
+                                        <i class="fas fa-redo"></i>
+                                    </div>
+                                    <span class="powerup-name">Skip</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-badge">
+                            <i class="fas fa-bolt"></i>
+                            <span>Step 4</span>
+                        </div>
+                        <h2>Use <span class="gradient-text">Power-ups</span></h2>
+                        <p>Stuck? Use powerful boosters to help you win!</p>
+                        <div class="powerup-info-grid">
+                            <div class="powerup-info">
+                                <i class="fas fa-percentage"></i>
+                                <div>
+                                    <h4>50/50</h4>
+                                    <p>Cuts the range in half</p>
+                                </div>
+                            </div>
+                            <div class="powerup-info">
+                                <i class="fas fa-eye"></i>
+                                <div>
+                                    <h4>Reveal</h4>
+                                    <p>Shows one digit</p>
+                                </div>
+                            </div>
+                            <div class="powerup-info">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <h4>Extra Time</h4>
+                                    <p>Adds 30 seconds</p>
+                                </div>
+                            </div>
+                            <div class="powerup-info">
+                                <i class="fas fa-forward"></i>
+                                <div>
+                                    <h4>Skip</h4>
+                                    <p>Skip current game</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Slide 6: Achievements & Ready -->
+                <div class="tutorial-slide" data-slide="6">
+                    <div class="slide-visual">
+                        <div class="visual-animation achievements-animation">
+                            <div class="achievements-showcase">
+                                <div class="achievement-demo unlocked">
+                                    <div class="achievement-icon">
+                                        <i class="fas fa-trophy"></i>
+                                    </div>
+                                    <span>First Win</span>
+                                    <div class="achievement-glow"></div>
+                                </div>
+                                <div class="achievement-demo">
+                                    <div class="achievement-icon">
+                                        <i class="fas fa-fire"></i>
+                                    </div>
+                                    <span>On Fire!</span>
+                                </div>
+                                <div class="achievement-demo">
+                                    <div class="achievement-icon">
+                                        <i class="fas fa-crown"></i>
+                                    </div>
+                                    <span>Champion</span>
+                                </div>
+                                <div class="achievement-demo">
+                                    <div class="achievement-icon">
+                                        <i class="fas fa-brain"></i>
+                                    </div>
+                                    <span>Mind Reader</span>
+                                </div>
+                            </div>
+                            <div class="ready-text">
+                                <span>You're</span>
+                                <span class="gradient-text">Ready!</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slide-content">
+                        <div class="slide-badge final">
+                            <i class="fas fa-award"></i>
+                            <span>Final Step</span>
+                        </div>
+                        <h2>Earn <span class="gradient-text">Achievements</span></h2>
+                        <p>Complete challenges to unlock badges, earn rewards, and become the ultimate GuessPro champion!</p>
+                        <div class="ready-actions">
+                            <button class="btn-start-playing" id="start-playing-btn">
+                                <i class="fas fa-rocket"></i>
+                                <span>Start Playing Now</span>
+                                <div class="btn-particles"></div>
+                            </button>
+                            <div class="keyboard-shortcuts">
+                                <h4>Quick Shortcuts</h4>
+                                <div class="shortcuts-grid">
+                                    <div class="shortcut">
+                                        <kbd>R</kbd>
+                                        <span>Restart</span>
+                                    </div>
+                                    <div class="shortcut">
+                                        <kbd>H</kbd>
+                                        <span>Hint</span>
+                                    </div>
+                                    <div class="shortcut">
+                                        <kbd>M</kbd>
+                                        <span>Mute</span>
+                                    </div>
+                                    <div class="shortcut">
+                                        <kbd>?</kbd>
+                                        <span>Help</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        
+        <!-- Navigation -->
+        <div class="tutorial-navigation">
+            <button class="nav-btn prev" id="tutorial-prev" disabled>
+                <i class="fas fa-chevron-left"></i>
+                <span>Previous</span>
+            </button>
+            
+            <div class="tutorial-dots" id="tutorial-dots">
+                <button class="dot active" data-slide="1"></button>
+                <button class="dot" data-slide="2"></button>
+                <button class="dot" data-slide="3"></button>
+                <button class="dot" data-slide="4"></button>
+                <button class="dot" data-slide="5"></button>
+                <button class="dot" data-slide="6"></button>
+            </div>
+            
+            <button class="nav-btn next" id="tutorial-next">
+                <span>Next</span>
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        
+        <!-- Skip Button -->
+        <button class="tutorial-skip" id="tutorial-skip">
+            Skip Tutorial <i class="fas fa-forward"></i>
+        </button>
+    </div>
+</div>
+    <!-- Audio Elements -->
+    <audio id="sound-click" preload="auto">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sound-correct" preload="auto">
+        <source src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sound-wrong" preload="auto">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2572/2572-preview.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sound-win" preload="auto">
+        <source src="https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sound-lose" preload="auto">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2658/2658-preview.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sound-achievement" preload="auto">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2019/2019-preview.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+</body>
+</html>
