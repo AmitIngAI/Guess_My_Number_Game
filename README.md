@@ -25,7 +25,7 @@
 
 **[🚀 Live Demo](https://guess-my-number-game-two-jet.vercel.app/) • **
 
-'''
+</div>
 
 ## 📋 Table of Contents
 
@@ -79,7 +79,7 @@
 | ❌ No Power-ups | ✅ 4 Unique Power-ups |
 
 ---
-
+```
 ## ✨ Key Features
 
 ### 🎮 Core Gameplay
@@ -113,6 +113,7 @@
 | **Extra Time** | Adds 30 seconds | ⏰ |
 | **Skip** | Skip to next game without penalty | ⏭️ |
 
+```
 ### 🎨 UI/UX Features
 ✨ Glassmorphism Design 🎭 Smooth Animations
 🌈 Gradient Backgrounds 💫 Particle Effects
@@ -149,7 +150,7 @@ Hints: Disabled
 Points: 5x Multiplier
 
 *Complete daily for streak rewards and exclusive badges.*
-
+```
 ## 🛠️ Tech Stack
 
 ### Frontend Architecture
@@ -200,7 +201,7 @@ javascript
 // Fonts Used
 ├── Orbitron               // Display font (numbers, headings)
 └── Poppins                // Body text
-
+```
 🚀 Getting Started
 Prerequisites:
 # Required
@@ -228,7 +229,7 @@ Statistics dashboard with register or login.
 🏆 Custom Mode
 <img width="1906" height="931" alt="custom_mode" src="https://github.com/user-attachments/assets/79806b65-d94d-4286-b89b-49e635176fe2" />
 custom mode for heavy and intresting gameplay.
-
+```
 🔒 Browser Support
 Browser	Version	Support
 Chrome	90+	✅ Full
@@ -265,7 +266,7 @@ Current Version: 1.0.0
  🎯 Custom Challenges Creator
  📱 React Native Mobile App
  🎮 More Game Variations
-
+```
 🤝 Contributing
 Contributions are what make the open source community amazing! Any contributions you make are greatly appreciated.
 
